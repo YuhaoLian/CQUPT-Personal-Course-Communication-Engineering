@@ -1,0 +1,34 @@
+body{
+    margin: 0px auto;
+    max-width: 1500px;
+    border: soild;
+}
+
+*{
+    padding: 0;
+    box-sizing: border-box;
+}
+
+table.employtable
+{
+    border-collapse: collapse;/*表格的两边框合并为一条*/
+    margin: auto; /*表格居中*/
+    text-align: center;
+    width: 600px;
+}
+
+table.employtable th{
+    border: 1px solid orange; /*边框颜色*/
+    background-color: #fd8f00;
+    color:white
+}
+
+table.employtable tr.or{
+    border: 1px solid orange;
+    background-color: #ebca9f;
+}
+
+table.employtable tr.white{
+    border: 1px solid orange;
+    background-color: #ffffff;
+}

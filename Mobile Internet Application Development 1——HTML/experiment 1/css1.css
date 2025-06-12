@@ -1,0 +1,52 @@
+body{
+    margin: 0px auto;  /*盒子间的距离 居中*/ 
+    max-width: 1500px;
+    border: soild;  /*边框实线*/ 
+}
+
+*{
+    padding: 0;
+    box-sizing: border-box; /*改变盒子的padding和border值，不改变盒子的大小*/
+}
+
+
+ul,li{list-style: none;}    /* 去除ul的li标签前面小点*/
+
+nav .level>li{
+    display: block; /*块元素现实*/
+    width: 20%;    
+    float: left;    /*左浮动允许一行存在多个div*/
+    text-align: center;
+    background-color: #bfdbf1;
+    padding: 8px;
+    color:white;
+    transition: .5s;    /* 增加过度时间 */
+}
+
+nav .level>li a{
+    color: white; /*设置连接字体颜色*/
+    text-decoration-line: none; /*去掉字体下划线*/
+}
+
+nav .level>li:hover{background: #2399e3;}   /* 设置鼠标滑过后的样式 */
+nav .level>li:active{
+    background: #6dc970;
+}   /* 设置鼠标点击过后的样式 */
+
+nav .two{display: none;}  /* 先使二级菜单的内容隐藏 */
+
+nav .level>li:hover .two{
+    display: block;
+}   /* 鼠标滑过一级菜单后的显示二级菜单 */
+
+
+nav .two li{
+    padding: 5px;
+    transition: .5s;
+    cursor: pointer; /*光标变成手行*/
+}
+
+nav .two li:hover{background: pink;}
+nav .two li:active{background: rgb(238, 72, 99);}
+
+

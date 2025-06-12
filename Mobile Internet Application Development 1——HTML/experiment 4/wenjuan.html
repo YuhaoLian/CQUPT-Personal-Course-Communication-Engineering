@@ -1,0 +1,145 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>手机移动支付调查问卷</title>
+	<style>
+		body {
+			background: #ffffff;
+		}
+
+		div {
+			background: #FFF;
+			color: rgb(5, 5, 5);
+
+			padding: 15px;
+			margin: 60px auto 0px;
+			width: 600px;
+			font-family: "微软雅黑";
+			box-shadow: 10px 10px 15px black;
+		}
+
+		h2 {
+			text-align: center;
+			color: #09F;
+		}
+
+		hr {
+			width: 80%;
+			border: 1.05px solid #09F;
+			margin-top: -5px;
+		}
+
+		input {
+			margin: 10px
+		}
+
+		li {
+			margin: 10px;
+		}
+
+		input[type="text"],
+		input[type="tel"] {
+			width: 100px;
+			border: 0px;
+			border-bottom: 1px solid;
+		}
+
+		button {
+			background: #09F;
+			display: block;
+			margin: 0 auto;
+			color: white;
+			width: 100px;
+			height: 40px;
+			font-size: 16px;
+			font-weight: bold;
+			font-family: "微软雅黑";
+			margin: 5% 39%;
+		}
+
+		button:hover {
+			background: #0CF;
+		}
+	</style>
+</head>
+
+<body>
+	<div>
+		<h2>手机移动支付业务问卷调查</h2><br />
+		<hr /><br /><!-- 水平线标签 -->
+		<!--get：提交的数据量要小于1024字节，表单提交时表单域数值（表单请求的信息：账号、密码…）将在地址栏显示。
+		post:传递的数据量不受限制，表单提交时表单的域值（表单请求的信息：账号、密码…）不会在地址栏显示，安全性能较高，对信息进行了隐藏，一般在开发中采用post。-->
+		<!--若onsubmit事件返回false，则将阻止表单的提交。如果不返回值，则默认为true-->
+		<form method="post" action="目前没有服务器，随便编一个" onSubmit="return check()">
+			<ol><!-- 有序表 -->
+				<li>您的教育程度是？</li>
+				<!-- 单选type -->
+				<!-- required 非空属性 -->
+				<label> <input type="radio" name="1" required>高中 </label>
+				<label> <input type="radio" name="1" required>大专 </label>
+				<label> <input type="radio" name="1" required>本科 </label>
+				<label> <input type="radio" name="1" required>硕士研究生 </label>
+				<label> <input type="radio" name="1" required>博士及以上 </label>
+
+				<li>您的年龄段是？</li>
+				<label> <input type="radio" name="2" required>18岁以下 </label>
+				<label> <input type="radio" name="2" required>18-25岁 </label>
+				<label> <input type="radio" name="2" required>26-30岁 </label>
+				<label> <input type="radio" name="2" required>31-35岁 </label>
+				<label> <input type="radio" name="2" required>35岁以上 </label>
+				<li>您了解以下哪些手机移动支付业务？（可多选）</li>
+				<label> <input type="checkbox" name="q3">支付宝 </label>
+				<label> <input type="checkbox" name="q3">微信支付 </label>
+				<label> <input type="checkbox" name="q3">Apple Pay </label>
+				<label> <input type="checkbox" name="q3">电信翼支付 </label>
+				<label> <input type="checkbox" name="q3">以上均不了解 </label>
+				<li>您看重以下哪些支付功能？（可多选）</li>
+				<label> <input type="checkbox" name="q4">话费充值 </label><br />
+				<label> <input type="checkbox" name="q4">刷手机加油 </label><br />
+				<label> <input type="checkbox" name="q4">刷手机购物 </label><br />
+				<label> <input type="checkbox" name="q4">乘坐公交/地铁 </label><br />
+				<label> <input type="checkbox" name="q4">以上均不感兴趣 </label><br />
+			</ol>
+			<label>您的姓名<input type="text" name="name" required></label>
+			<label>您的职业<input type="text" name="position" required></label>
+			<label>联系电话<input type="tel" name="tel" required></label>
+			<button type="submit">提交问卷</button>
+
+		</form>
+		<script>
+			function checkBox(name) {
+				var j = 0;
+				var flag = 0;
+				var checkbox = document.getElementsByName(name);
+				for (var i = 0; i < checkbox.length; i++) {
+					if (checkbox[i].checked) {
+						if (i == checkbox.length - 1) {
+							flag++;
+						}
+						j++;
+
+					}
+				}
+				if (j == 0 || ((j > flag) && flag)) { return false; }
+				return true;
+			}
+			function check() {
+				var q3 = checkBox("q3");
+				if (q3 == false) {
+					alert("第3题至少要选择一个选项");
+					return false;
+				}
+				var q4 = checkBox("q4");
+				if (q4 == false) {
+					alert("第4题至少要选择一个选项且5选项不能与其他选项兼容");
+					return false;
+				}
+			}
+
+		</script>
+	</div>
+</body>
+
+</html>

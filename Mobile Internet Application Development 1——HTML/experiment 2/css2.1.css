@@ -1,0 +1,44 @@
+body{
+    margin: 0px auto; /*指定元素所有外边距*/
+    max-width: 1500px;
+    border: soild; /* 边框样式 */
+}
+
+*{
+    padding: 0;/* 定义元素边框与元素内容之间的空间*/
+    box-sizing: border-box;
+}
+
+.wrap{
+  width: 800px;
+  margin: 0 auto;
+}
+
+
+    .clear{clear: both;}  
+
+
+#clock{
+    width:800px;
+    font-size: 80px;
+    font-weight: bold;
+    color: #afeeee;
+    text-align: center;
+    margin: 20px;
+}
+
+.box1{
+    margin-right: 10px;
+    width: 120px;
+    height: 115px;
+    line-height: 100px;
+    float: left;
+    border: rgb(255, 170, 170) 10px solid;
+}
+/* 冒号区域的样式设置 */
+
+.box2{
+    width: 40px;
+    float: left;
+    margin-right: 15px;
+}

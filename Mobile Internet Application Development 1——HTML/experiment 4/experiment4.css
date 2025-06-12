@@ -1,0 +1,44 @@
+body{
+    background-color:#CCCC;/*背景设置为浅灰色*/
+}
+/*注册面板样式*/
+#container{
+    background-color:white;
+    color:#2289F0;
+    padding:15px;
+    margin:100px auto 0px;/*各边内边距15px，上边距100px,居中显示，下边距0px*/
+    width:600px;
+    text-align:center;
+    font-family:"微软雅黑 Light";
+    box-shadow:10px 10px 15px black;/*定义边框阴影效果*/
+}
+/*水平线样式*/
+hr{
+    width:80%;
+    border:#2289F0 1px solid;
+    margin-bottom:15px;
+}
+/*输入表单样式*/
+input{
+    width:180px;
+    height:20px;
+    margin:5px;
+    font-size:16px;
+    font-family:"微软雅黑 Light";
+}
+/*按钮样式*/
+button{
+    width:120px;
+    height:40px;
+    margin:10px;
+    background-color:#2289F0;
+    border:0px;
+    color:white;
+    font-size:18px;
+    font-family:"微软雅黑 Light";
+    font-weight:bold;
+}
+/*鼠标悬浮时按钮样式*/
+button:hover{
+    background-color:#0068D0;
+}

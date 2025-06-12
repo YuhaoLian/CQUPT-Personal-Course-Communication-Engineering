@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>电子日历的设计与实现</title>
+    <link rel="stylesheet"  href="css2.2.css">
+	<script src="2.2.js"></script>
+</head>
+    <body onload="showDate()">  <!--执行脚本文件-->
+        <h3>简单电子日历的设计与实现</h3>
+        <hr />
+        <div id="calendar">
+		    <!--状态栏-->
+            <div>
+			    <!--显示上个月按钮-->
+                <button onclick="lastMonth()">上个月</button>
+                <!--显示当前年份和月份-->
+				<div id="month"></div>
+				<!--显示下个月按钮-->
+                <button onclick="nextMonth()">下个月</button>
+            </div>
+
+            <!--显示星期几-->
+			<div>
+                <div class="everyday">日</div>
+                <div class="everyday">一</div>
+                <div class="everyday">二</div>
+                <div class="everyday">三</div>
+                <div class="everyday">四</div>
+                <div class="everyday">五</div>
+                <div class="everyday">六</div>
+            </div>
+
+            <!--显示当前月份每天的日期-->
+			<div id="day"></div>
+		</div>
+		
+    </body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>教学视频</title>
+    <link rel="stylesheet" href="css/course.css">
+    <style>
+        body {
+            background-color: silver;
+            text-align: center;
+        }
+
+        #cource {
+            width: 640px;
+            background-color: white;
+            margin: auto;
+            text-align: left;
+            box-shadow: 10px 10px 15px black;
+        }
+
+        ul {
+            list-style: none;
+            padding: 10px;
+            margin-top: -10px;
+        }
+
+        h3 {
+            text-align: center;
+        }
+
+        li span {
+            line-height: 40px;
+            height: 40px;
+            padding: 0;
+        }
+
+        li:hover {
+            color: red;
+        }
+
+        img {
+            vertical-align: bottom;
+            width: 40px;
+            height: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="course">
+        <!--创建视频播放窗口-->
+        <video id="screen" width="640" src="../video/art.mp4" controls autoplay>
+            对不起,您的浏览器不支持HTML5视频。
+        </video>
+        <!--课程大纲列表-->
+        <ul>
+            <li>
+                <!--课程标题-->
+                <h3>欧洲简史</h3>
+            </li>
+            <!--水平线-->
+            <hr />
+            <li onclick="playCourse(60)">
+                <img src="../image/course/play.png" />
+                <span>早期基督美术建筑</span>
+            </li>
+            <hr />
+            <li onclick="playCourse(120)">
+                <img src="../image/course/play.png" />
+                <span>早期基督美术之绘画</span>
+            </li>
+            <!--水平线-->
+            <hr />
+            <li onclick="playCourse(220)">
+                <img src="../image/course/play.png" />
+                <span>早期基督美术之绘画：拜占庭美术</span>
+            </li>
+            <!--水平线-->
+            <hr />
+            <li onclick="playCourse(320)">
+                <img src="../image/course/play.png" />
+                <span>早期基督美术之绘画：镶嵌画</span>
+            </li>
+            <!--水平线-->
+            <hr />
+            <li onclick="playCourse(420)">
+                <img src="../image/course/play.png" />
+                <span>早期基督美术之绘画：罗马式美术</span>
+            </li>
+        </ul>
+    </div>
+    <script>
+        var screen = document.getElementById("screen");
+        //跳转播放时间
+        function playCourse(time) {
+            //重置当前播放时间
+            screen.currentTime = time;
+            //继续播放视频
+            screen.play();
+        }
+    </script>
+
+</body>
+
+</html>

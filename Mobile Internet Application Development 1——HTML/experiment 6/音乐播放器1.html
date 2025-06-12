@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>音乐播放器</title>
+    <link rel="stylesheet" href="css/music.css">
+    <style>
+        div {
+            text-align: center;
+            margin: 10px;
+        }
+
+        #CDimage img {
+            border-radius: 50%;
+        }
+
+        img {
+            border: 0px;
+        }
+
+        button {
+            background: transparent;
+            border: 0;
+            outline: 0;
+            /* outline: inset thick; */
+        }
+    </style>
+
+</head>
+
+<body>
+    <h3>简单音乐播放器</h3>
+    <hr />
+    <!--音乐文件的载入-->
+    <audio id="audio" src="../music/Serenade.mp3" preload>
+        对不起,您的浏览器不支持HTML5音频播放
+    </audio>
+    <div id="CDimage">
+        <img src="../image/sky.jpg" />
+    </div>
+    <!--音量调节进度条-->
+    <div>
+        <input id="volume" type="range" min="0" max="1" step="0.1" onchange="setVolume()" />
+    </div>
+    <!--显示歌曲名称-->
+    <div>
+        当前正在播放: <span id="title">小夜曲</span>
+    </div>
+    <!--控件功能实现-->
+    <div>
+        <button onclick="lastMusic()"><img src="../image/previous.png" width="50" height="50" />
+        </button>
+        <button id="toggleBtn" onclick="toggleMusic()"><img src="../image/play.png" width="50" height="50" />
+        </button>
+        <button onclick="nextMusic()"><img src="../image/next.png" width="50" height="50" />
+        </button>
+    </div>
+    <script>
+        var music = document.getElementById("audio");//获取音频对象
+        var volume = document.getElementById("volume");//获取音量调节进度条
+        var toggleBtn = document.getElementById("toggleBtn");//获取音乐播放、暂停按钮
+        var title = document.getElementById("title");//获取当前播放音乐标题
+        var list = new Array("../music/Serenade.mp3", "../music/EndlessHorizon.mp3", "../music/月光下的云海.mp3");
+        var titleList = new Array("小夜曲", "无尽的地平线", "月光下的云海");
+        var i = 0;
+        //音乐播放/暂停切换方法
+        function toggleMusic() {
+            if (music.paused) {
+                music.play();//播放音乐
+                toggleBtn.innerHTML = '<img src="../image/pause.png" width="50" height="50"/>';
+            }
+            else {
+                music.pause();//暂停音乐
+                toggleBtn.innerHTML = '<img src="../image/play.png" width="50" height="50"/>';
+            }
+        }
+        //设置音量大小
+        function setVolume() {
+            music.volume = volume.value;
+        }
+        //切换下一首
+        function nextMusic() {
+            if (i == list.length - 1)
+                i = 0;
+            else
+                i++;
+            music.pause();
+            music.src = list[i];
+            title.innerHTML = titleList[i];
+            music.play();
+        }
+        function lastMusic() {
+            if (i == 0)
+                i = list.length - 1;
+            else
+                i--;
+            music.pause();
+            music.src = list[i];
+            title.innerHTML = titleList[i];
+            music.play();
+        }
+    </script>
+
+</body>
+
+</html>

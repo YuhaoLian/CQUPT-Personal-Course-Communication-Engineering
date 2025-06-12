@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>表格</title>
+
+    <style>
+
+        table {
+
+            border-collapse: collapse;
+
+        }
+
+         
+
+        table, tr, td {
+
+            border: 1.5px solid black;
+
+        }
+
+         
+
+        td {
+
+            text-align: center;
+
+            height: 50px;
+
+            position: relative;
+
+        }
+
+        td[class=first]{
+
+            width: 100px;
+
+        }
+
+        td[class=first]:before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 1px;
+
+            height: 105px;
+
+            top: 0;
+
+            left: 0;
+
+            background-color: #000;
+
+            display: block;
+
+            transform: rotate(-72deg);
+
+            transform-origin: top;
+
+            -ms-transform: rotate(-75deg);
+
+            -ms-transform-origin: top;
+
+        }
+
+        td[class=first]:after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 1px;
+
+            height: 79px;
+
+            top: 0;
+
+            left: 0;
+
+            background-color: #000;
+
+            display: block;
+
+            transform: rotate(-50deg);
+
+            transform-origin: top;
+
+            -ms-transform: rotate(-45deg);
+
+            -ms-transform-origin: top;
+
+        }
+
+        .phone{
+
+            position: absolute;
+
+            top: 0px;
+
+            right:8px;
+
+        }
+
+        .price{
+
+            position: absolute;
+
+            top: 28px;
+
+            right:8px;
+
+        }
+
+        .color{
+
+            position: absolute;
+
+            top: 28px;
+
+            left:3px;
+
+        }
+
+        </style>
+
+    <h2>手机配置对比表</h2>
+
+</head>
+
+<body>
+
+  <table border="1"  cellspacing="0" cellpadding="0">
+
+    <tr>
+
+        <td class="first" colspan="2"><span class="phone">手机</span><br><span class="price">价格</span><br><span class="color">颜色</span></th>
+
+        <td>黑色</th>
+
+        <td>白色</th>
+
+        <td>粉色</th>
+
+    </tr>
+
+    <tr>
+
+        <td>1</td>
+
+        <td>小米X</td>
+
+        <td>3100</td>
+
+        <td>3000</td>
+
+        <td>3500</td>
+
+    </tr>
+
+      <tr>
+
+        <td>2</td>
+
+        <td>华为X</td>
+
+        <td>6999</td>
+
+        <td>6899</td>
+
+        <td>7999</td>
+
+    </tr>
+
+  </table>
+
+</body>
+
+</html>

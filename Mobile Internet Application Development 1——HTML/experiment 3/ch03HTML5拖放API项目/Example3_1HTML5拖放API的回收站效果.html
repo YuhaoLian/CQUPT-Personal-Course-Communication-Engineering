@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>HTML5拖放API之回收站效果</title>
+		<link rel="stylesheet" href="css/recycle.css">
+    </head>
+    <body>
+        <h3>HTML5拖放API之回收站效果</h3>
+        <hr />
+		<!--文件展示区域-->
+        <div id="container">
+            <!--draggable="true"表示可拖动 设置ondragstart事件处理程序，以便在开始拖动时设置数据-->
+            <div id="file1" class="folder" draggable="true" ondragstart="drag(event)">
+                文件1
+            </div>
+            <div id="file2" class="folder" draggable="true" ondragstart="drag(event)">
+                文件2
+            </div>
+            <div id="file3" class="folder" draggable="true" ondragstart="drag(event)">
+                文件3
+            </div>
+            <div id="file4" class="folder" draggable="true" ondragstart="drag(event)">
+                文件4
+            </div>
+        </div>
+		<!--回收站区域-->
+        <div id="recycle" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+        <script>
+		    //ondragstart事件回调函数
+            function drag(ev) {
+				//设置传递的内容为被拖拽元素的id名称，数据类型为纯文本类型
+                ev.dataTransfer.setData("text/plain", ev.target.id);
+            }
+            //ondragover事件回调函数
+			function allowDrop(ev) {
+				//解禁当前元素为可放置被拖拽元素的区域
+                ev.preventDefault();
+            }
+            //ondrop事件回调函数
+			function drop(ev) {
+				//解禁当前元素为可放置被拖拽元素的区域
+                ev.preventDefault();
+				//获取当前被放置的元素id名称
+                var id = ev.dataTransfer.getData("text");
+				//根据id名称获取元素对象
+                var folder = document.getElementById(id);
+				//获取文件夹区域并删除该元素对象
+                document.getElementById("container").removeChild(folder);
+            }
+        </script>
+    </body>
+</html>
