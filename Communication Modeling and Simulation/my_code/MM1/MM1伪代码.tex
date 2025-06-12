@@ -1,0 +1,50 @@
+
+\def\SetClass{article}
+\documentclass{\SetClass}
+\usepackage[lined,boxed,commentsnumbered,mfirstuc]{algorithm2e}
+% \documentclass[1000pt]{article}
+\begin{document}
+\IncMargin{1em}
+\usepackage{algorithm}
+\begin{algorithm}[H]
+\SetAlgoLined
+\def\SetClass{article}
+\documentclass{\SetClass}
+\usepackage[lined,boxed,commentsnumbered,mfirstuc]{algorithm2e}
+% \documentclass[1000pt]{article}
+\begin{document}
+\IncMargin{1em}
+\begin{algorithm}[H]
+\SetAlgoLined
+\KwIn{Arrival rate $\lambda$, Service rate $\mu$, Simulation time $T$}
+\KwOut{Average number of customers in the system $L$, Average waiting time $W$}
+initialize $t=0$, $n=0$, $A=0$, $D=\infty$, $L=0$, $W=0$;
+\While{$t<T$}{
+\If{$A<D$}{
+$t=A$;
+$n\leftarrow n+1$;
+$A\leftarrow t-\ln(U)/\lambda$;
+\If{$D=\infty$}{
+$D\leftarrow t-\ln(U)/\mu$;
+}
+$L\leftarrow L+(n-1)(t-T_{last})$;
+$T_{last}\leftarrow t$;
+}
+\Else{
+$t=D$;
+$n\leftarrow n-1$;
+\If{$n>0$}{
+$D\leftarrow t-\ln(U)/\mu$;
+$W\leftarrow W+(t-A)$;
+}
+\Else{
+$D\leftarrow\infty$;
+}
+}
+}
+$L\leftarrow L/T$;
+$W\leftarrow W/n$;
+\caption{MM1 Queueing System Simulation}
+\end{algorithm}
+\DecMargin{1em}
+\end{document}
