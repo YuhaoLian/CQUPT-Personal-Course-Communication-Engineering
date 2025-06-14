@@ -1,0 +1,29 @@
+5950：
+router rip
+//直连网络宣告
+network 169.254.178.0 0.0.0.255//反掩码形式
+network 169.254.177.0 0.0.0.255
+network 169.254.176.0 0.0.0.255
+show ip rip//查看相关信息
+no auto-summary//关闭路由汇总
+
+1800：
+router rip
+//直连网络宣告
+network 169.254.178.0 0.0.0.255//反掩码形式
+network 169.254.175.0 0.0.0.255
+network 169.254.174.0 0.0.0.255
+show ip rip//查看相关信息
+no auto-summary//关闭路由汇总
+
+5950：
+router ospf 1
+network 169.254.178.0 0.0.0.255 area 0//反掩码形式
+network 169.254.177.0 0.0.0.255 area 0
+network 169.254.176.0 0.0.0.255 area 0
+
+1800:
+router ospf 1
+network 169.254.178.0 0.0.0.255 area 0//反掩码形式
+network 169.254.175.0 0.0.0.255 area 0
+network 169.254.174.0 0.0.0.255 area 0

@@ -1,0 +1,461 @@
+实现vlan间通信：(自行二层交换机配vlan以及端口方式)
+2811：
+enable
+conf t
+int fa0/0
+no shutdown
+exit
+int fa0/0.1
+encapsulation dot1q 140
+ip add 192.168.40.14 255.255.255.240
+exit
+int fa0/0.2
+encapsulation dot1q 141
+ip add 192.168.41.14 255.255.255.240
+exit
+int fa0/1
+ip add 192.168.44.1 255.255.255.240
+no shutdown
+exit
+ip routing
+router rip
+version 2
+network 192.168.40.0
+network 192.168.41.0
+network 192.168.44.0
+end
+
+
+3560:
+enable
+conf t
+vlan 140
+name vlan140
+exit
+vlan 141
+name vlan141
+exit
+int fa0/1
+sw trunk encapsulation dot1q
+sw mo trunk
+exit
+int fa0/2
+sw trunk encapsulation dot1q
+sw mo trunk
+exit
+int vlan 140
+ip add 192.168.42.14 255.255.255.240
+no shutdown
+exit
+int vlan 141
+ip add 192.168.43.14 255.255.255.240
+no shutdown
+exit
+ip routing
+int fa0/2
+no shutdown
+no switchport
+ip add 192.168.44.2 255.255.255.240
+exit
+router rip
+version 2
+network 192.168.42.0
+network 192.168.43.0
+network 192.168.44.0
+network 192.168.46.0
+end
+
+链路聚合：（自行配vlan）
+3590(右)：
+en
+config t
+int vlan 142
+ip add 192.168.45.14 255.255.255.240
+no shutdown
+exit
+int port-channel 1
+no switchport
+ip add 192.168.46.2 255.255.255.240
+int range fa0/3-5
+no switchport
+channel-group 1 mode on
+exit
+int fa0/6
+no shutdown
+no switchport
+ip add 192.168.47.1 255.255.255.240
+exit
+ip routing
+router rip
+version 2
+network 192.168.45.0 
+network 192.168.46.0 
+network 192.168.47.0 
+end
+
+3950(左):
+en
+config t
+int port-channel 1
+no switchport
+ip add 192.168.46.1 255.255.255.240
+int range fa0/3-5
+no switchport
+channel-group 1 mode on
+exit
+end
+
+动态NAT:
+3560sw2:
+en
+config t
+int fa0/1
+no shutdown
+no switchport
+ip add 192.168.47.2 255.255.255.240
+exit
+int fa0/2
+no shutdown
+no switchport
+ip add 192.168.50.1 255.255.255.240
+exit
+int fa0/3
+no shutdown
+no switchport
+ip add 192.168.49.1 255.255.255.240
+exit
+in fa0/4
+no shutdown
+no switchport
+ip add 192.168.48.1 255.255.255.240
+exit
+ip routing
+router ospf 1
+network 192.168.48.0 0.0.0.15 area 0
+network 192.168.49.0 0.0.0.15 area 0
+network 192.168.50.0 0.0.0.15 area 0
+redistribute rip subnets
+redistribute rip metric 200
+exit
+router rip
+version 2
+network 192.168.47.0
+redistribute ospf 1 metric 10
+end
+
+
+sw3:
+en
+config t
+int fa0/1
+no shutdown
+no switchport
+ip add 192.168.51.2 255.255.255.240
+exit
+int fa0/2
+no shutdown
+no switchport
+ip add 192.168.50.2 255.255.255.240
+exit
+int fa0/3
+no shutdown
+no switchport
+ip add 192.168.55.1 255.255.255.240
+exit
+int fa0/4
+no shutdown
+no switchport
+ip add 192.168.52.1 255.255.255.240
+exit
+ip routing
+router ospf 1
+network 192.168.41.0 0.0.0.15 area 0
+network 192.168.50.0 0.0.0.15 area 0
+network 192.168.52.0 0.0.0.15 area 0
+network 192.168.55.0 0.0.0.15 area 0
+end
+
+2811r1:
+en
+config t
+int fa0/0
+ip add 192.168.48.2 255.255.255.240
+no shutdown
+exit
+int fa0/1
+ip add 192.168.51.1 255.255.255.240
+no shutdown
+exit
+ip routing
+router ospf 1
+network 192.168.48.0 0.0.0.15 area 0
+network 192.168.51.0 0.0.0.15 area 0
+end
+
+2811r2:
+en
+config t
+int fa0/0
+ip add 192.168.49.2 255.255.255.240
+no shutdown
+exit
+int fa0/1
+ip add 20.40.40.14 255.255.255.240
+no shutdown
+exit
+int fa0/0
+ip nat inside
+exit
+int fa0/1
+ip nat outside
+exit
+ip nat pool lin 20.40.40.40 20.40.40.47 netmask 255.255.255.240
+access-list 1 permit 192.168.40.0 0.0.0.15
+access-list 1 permit 192.168.41.0 0.0.0.15
+access-list 1 permit 192.168.42.0 0.0.0.15
+access-list 1 permit 192.168.43.0 0.0.0.15
+access-list 1 permit 192.168.44.0 0.0.0.15
+access-list 1 permit 192.168.45.0 0.0.0.15
+access-list 1 permit 192.168.46.0 0.0.0.15
+access-list 1 permit 192.168.47.0 0.0.0.15
+access-list 1 permit 192.168.48.0 0.0.0.15
+access-list 1 permit 192.168.49.0 0.0.0.15
+access-list 1 permit 192.168.50.0 0.0.0.15
+access-list 1 permit 192.168.51.0 0.0.0.15
+ip nat inside source list 1 pool lin overload
+ip routing
+router ospf 1
+network 192.168.49.0 0.0.0.15 area 0
+network 20.40.40.0 0.0.0.15 area 0
+end
+
+DHCP中继（二层、sw11配vlan143、144,146三层还有145）
+sw5:
+en
+config t
+int fa0/3
+no shutdown
+no switchport
+ip add 192.168.52.2 255.255.255.240
+exit
+int vlan 143
+ip add 192.168.56.14 255.255.255.240
+exit
+int vlan 144
+ip add 192.168.57.14 255.255.255.240
+exit
+int vlan 145
+ip add 192.168.54.14 255.255.255.240
+exit
+int vlan 146
+ip add 192.168.58.14 255.255.255.240
+exit
+ip routing 
+int vlan 143
+ip helper-address 192.168.54.2
+exit
+int vlan 144
+ip helper-address 192.168.54.2
+exit
+int vlan 146
+ip helper-address 192.168.54.2
+exit
+router ospf 1
+network 192.168.52.0 0.0.0.15 area 0
+network 192.168.54.0 0.0.0.15 area 0
+network 192.168.56.0 0.0.0.15 area 0
+network 192.168.57.0 0.0.0.15 area 0
+network 192.168.58.0 0.0.0.15 area 0
+end
+
+扩展ACL：
+R5:
+en
+config t
+int fa0/0
+ip add 192.168.55.2 255.255.255.240
+no shutdown
+exit
+int fa0/1
+ip add 192.168.59.14 255.255.255.240
+no shutdown
+exit
+interface Serial0/3/0
+ip add 192.168.60.1 255.255.255.240
+no shutdown
+exit
+ip routing
+router ospf 1
+network 192.168.55.0 0.0.0.15 area 0
+network 192.168.60.0 0.0.0.15 area 0
+network 192.168.59.0 0.0.0.15 area 0
+exit
+ip access-list extended denypc10
+deny tcp host 192.168.61.3 host 192.168.59.2 eq www
+permit ip any any
+exit
+int fa0/1
+ip access-group denypc10 out
+end
+
+R6:
+en
+config t
+interface Serial0/3/0
+ip add 192.168.60.2 255.255.255.240
+no shutdown
+exit
+int fa0/0
+ip add 192.168.61.14 255.255.255.240
+no shutdown
+exit
+int fa0/1
+ip add 192.168.62.1 255.255.255.240
+no shutdown
+exit
+router ospf 1
+network 192.168.61.0 0.0.0.15 area 0
+network 192.168.60.0 0.0.0.15 area 0
+network 192.168.62.0 0.0.0.15 area 0
+end
+
+动态链路聚合：
+SW3:2620
+en
+config t
+int port-channel 1
+int range fa0/4-fa0/6
+channel-group 1 mode active 
+exit
+end
+
+SW4:2620
+en
+config t
+int port-channel 1
+int range fa0/2-fa0/4
+channel-group 1 mode passive
+exit
+monitor session 1 source int fa0/1 both
+monitor session 1 destination int fa0/6
+end
+
+
+talent远程服务：
+R6:(用户名：R5 密码：123456 )
+en
+config t
+hostname R5
+enable secret cisco
+line vty 0 4
+password 123456
+login
+end
+
+BGP：
+2811 R4:（2次输入）
+en
+config t
+int fa0/0
+ip add 192.168.63.1 255.255.255.240
+no shutdown
+exit
+int fa0/1
+ip add 192.168.62.2 255.255.255.240
+no shutdown
+exit
+router ospf 1
+network 192.168.62.0 0.0.0.15 area 0
+exit
+router bgp 1
+network 192.168.63.0 mask 255.255.255.240
+neighbor 192.168.63.2 remote-as 2
+redistribute ospf 1 match internal external 1 external 2
+exit
+router ospf 1
+redistribute bgp 1 subnets
+end
+
+
+2811 R7:
+en
+config t
+int fa0/0
+ip add 192.168.63.2 255.255.255.240
+no shutdown
+exit
+int fa0/1
+ip add 192.168.64.14 255.255.255.240
+no shutdown
+exit
+router bgp 2
+network 192.168.63.0 mask 255.255.255.240
+network 192.168.64.0 mask 255.255.255.240
+neighbor 192.168.63.1 remote-as 1
+end
+
+NAPT:
+2811r2:
+en
+config t
+int fa0/0
+ip add 192.168.49.2 255.255.255.240
+no shutdown
+exit
+int fa0/1
+ip add 10.40.40.1 255.255.255.240
+no shutdown
+exit
+int fa0/0
+ip nat inside
+exit
+int fa0/1
+ip nat outside
+exit
+ip nat pool lin 10.40.40.40 10.40.40.47 netmask 255.255.255.240
+access-list 1 permit 192.168.40.0 0.0.0.15
+access-list 1 permit 192.168.41.0 0.0.0.15
+access-list 1 permit 192.168.42.0 0.0.0.15
+access-list 1 permit 192.168.43.0 0.0.0.15
+access-list 1 permit 192.168.44.0 0.0.0.15
+access-list 1 permit 192.168.45.0 0.0.0.15
+access-list 1 permit 192.168.46.0 0.0.0.15
+access-list 1 permit 192.168.47.0 0.0.0.15
+access-list 1 permit 192.168.48.0 0.0.0.15
+access-list 1 permit 192.168.49.0 0.0.0.15
+access-list 1 permit 192.168.50.0 0.0.0.15
+access-list 1 permit 192.168.51.0 0.0.0.15
+ip nat inside source list 1 pool lin overload
+ip routing
+router ospf 1
+network 192.168.49.0 0.0.0.15 area 0
+network 10.40.40.0 0.0.0.15 area 0
+end
+
+
+VRRP:(sw0四口配trunk)
+R3 2811:
+en
+config t
+int fa0/0
+ip add 192.168.40.14 255.255.255.240
+no shutdown
+exit
+int fa0/0
+standby 1 ip 192.168.40.10
+int fa0/0
+standby 1 priority 110
+end
+
+R8 2811:
+en
+config t
+int fa0/0
+ip add 192.168.40.14 255.255.255.240
+no shutdown
+exit
+int fa0/0
+standby 1 ip 192.168.40.10
+int fa0/0
+standby 1 priority 110
+end

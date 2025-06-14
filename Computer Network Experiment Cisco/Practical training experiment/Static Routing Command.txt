@@ -1,0 +1,83 @@
+5250(左):
+set vlan 1 add port 3 untag
+set vlan 2 add port 1 untag
+set vlan 1 add port 2 tag
+set vlan 2 add port 2 tag
+set vlan 100 add port 2 tag
+port 3 pvid 1
+port 1 pvid 2
+port 1 pvid 100
+vlan 1 en
+vlan 2 en
+vlan 100 en
+show running-config//检查配置
+5250(右):
+set vlan 1 add port 3 untag
+set vlan 2 add port 1 untag
+set vlan 1 add port 2 tag
+set vlan 2 add port 2 tag
+set vlan 100 add port 2 tag
+port 3 pvid 1
+port 1 pvid 2
+port 1 pvid 100
+vlan 1 en
+vlan 2 en
+vlan 100 en
+show running-config//检查配置
+5950：
+show vlan
+config t 
+vlan 1
+exit
+vlan 2
+exit
+vlan 100
+exit
+int vlan 1
+ip add 169.254.174.1 255.255.255.0
+exit
+int vlan 2
+ip add 169.254.175.1 255.255.255.0
+exit
+int vlan 100
+ip add 169.254.178.1 255.255.255.0
+exit
+int gei_1/1
+switchport mode trunk
+switchport trunk vlan 1
+switchport trunk vlan 2
+switchport trunk vlan 100
+exit
+int fei_1/1
+switchport mode trunk
+switchport trunk vlan 1
+switchport trunk vlan 2
+switchport trunk vlan 100
+exit
+ip route 169.254.174.0 255.255.255.0 169.254.178.131
+ip route 169.254.175.0 255.255.255.0 169.254.178.131
+end
+show running config
+show vlan brief//检查配置
+1800：
+reload//重启路由器
+en
+
+show ip rou//检查路由表
+config t
+int gei_0/1.1
+encapsulation dot1q 1
+ip add 169.254.176.1 255.255.255.0//网关地址
+exit
+int gei_0/1.2
+encapsulation dot1q 2
+ip add 169.254.177.1 255.255.255.0
+exit
+show ip rou//检查路由表
+int fei_1/1
+ip add ip add 169.254.178.131 255.255.255.0
+exit
+ip route 169.254.176.0 255.255.255.0 169.254.178.130
+ip route 169.254.177.0 255.255.255.0 169.254.178.130
+
+
